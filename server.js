@@ -40,6 +40,16 @@ app.post('/todos',function(req,res)
   res.json(body);
 });
 
+app.delete('/todos/:id',function(req,res)
+{
+  var todoId=parseInt(req.params.id,10);
+  var matchedTodo=_.findWhere(todos,{id:todoId});
+  if(!matchedTodo)
+    res.status(404).json({"error":"Item with given id not found!"})
+  todos=_.without(todos,matchedTodo);
+  res.send(matchedTodo);
+});
+
 app.listen(PORT,function()
 {
   console.log('Server started at PORT: '+PORT+'!');
